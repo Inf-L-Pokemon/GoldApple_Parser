@@ -85,8 +85,9 @@ class Parser:
             instruction = 'Инструкция отсутствует'
 
         try:
-            country = soup.css.select('div[text="о бренде"]')
-            country = country[0].contents[2].text.strip().replace('\n', ' ')
+            country_soup = soup.css.select('div[text="Дополнительная информация"]')
+            country_str = str(country_soup[0]).replace('<br/>', ' ')
+            country = BeautifulSoup(country_str, 'lxml').text
         except Exception:
             country = 'Страна не указана'
 

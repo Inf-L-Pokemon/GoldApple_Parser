@@ -1,5 +1,7 @@
 import csv
 
+from tqdm import trange
+
 from parser import Parser
 
 
@@ -21,7 +23,7 @@ class SaveCSV:
         with open("goldapple.csv", "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=self.headers_csv, delimiter='|')
             writer.writeheader()
-            for page in range(self.pages):
+            for page in trange(1, self.pages + 1):
                 links = self.parser.get_perfumes_links(page=page)
                 if not links:
                     break
