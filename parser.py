@@ -44,7 +44,7 @@ class Parser:
 
         for perfume_link in perfumes_data_scroll_id:
             tag_a = perfume_link.find('a')
-            if tag_a is not None:
+            if tag_a:
                 link = 'https://goldapple.ru/' + tag_a.get('href')
                 links.append(link)
 
@@ -72,11 +72,8 @@ class Parser:
         except Exception:
             rating = 0
 
-        try:
-            description = soup.css.select('div[itemprop="description"]')
-            description = description[0].text.strip().replace('\n', ' ')
-        except Exception:
-            description = 'Описание отсутствует'
+        description = soup.css.select('div[itemprop="description"]')
+        description = description[0].text.strip().replace('\n', ' ')
 
         try:
             instruction = soup.css.select('div[text="применение"]')
@@ -84,12 +81,9 @@ class Parser:
         except Exception:
             instruction = 'Инструкция отсутствует'
 
-        try:
-            country_soup = soup.css.select('div[text="Дополнительная информация"]')
-            country_str = str(country_soup[0]).replace('<br/>', ' ')
-            country = BeautifulSoup(country_str, 'lxml').text
-        except Exception:
-            country = 'Страна не указана'
+        country_soup = soup.css.select('div[text="Дополнительная информация"]')
+        country_str = str(country_soup[0]).replace('<br/>', ' ')
+        country = BeautifulSoup(country_str, 'lxml').text.strip()
 
         data = {
             'url': url,
